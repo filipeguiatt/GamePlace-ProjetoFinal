@@ -10,8 +10,6 @@
     <Compile Remove="Migrations\20210627164438_GamePlace.Designer.cs" />
     <Compile Remove="Migrations\20210707123950_GamePlace.cs" />
     <Compile Remove="Migrations\20210707123950_GamePlace.Designer.cs" />
-    <Compile Remove="Migrations\20210707165530_GamePlace.cs" />
-    <Compile Remove="Migrations\20210707165530_GamePlace.Designer.cs" />
     <Compile Remove="Models\ViewModels.cs" />
   </ItemGroup>
 
@@ -30,7 +28,6 @@
 
   <ItemGroup>
     <Folder Include="Data\Migrations\" />
-    <Folder Include="Migrations\" />
     <Folder Include="wwwroot\fotos\" />
   </ItemGroup>
 

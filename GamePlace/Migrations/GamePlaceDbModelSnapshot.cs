@@ -93,8 +93,14 @@ namespace GamePlace.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("ImagemJogo")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("JogoFK")
                         .HasColumnType("int");
+
+                    b.Property<string>("LinkVideos")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NomeRecurso")
                         .HasColumnType("nvarchar(max)");
@@ -177,14 +183,14 @@ namespace GamePlace.Migrations
                         new
                         {
                             Id = "u",
-                            ConcurrencyStamp = "03b3f988-4e60-4376-b855-9527d0243d1f",
+                            ConcurrencyStamp = "f037a4d1-8fec-46c0-8b39-cc0a3a6b1ecc",
                             Name = "Utilizador",
                             NormalizedName = "UTILIZADOR"
                         },
                         new
                         {
                             Id = "a",
-                            ConcurrencyStamp = "3104617c-b4e7-4d39-b3f6-570f1494e05c",
+                            ConcurrencyStamp = "19e1c116-4587-4987-9f34-48a61c073028",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
