@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GamePlace.Models
@@ -15,7 +16,7 @@ namespace GamePlace.Models
         /// <summary>
         /// Data de compra do Jogo
         /// </summary>
-        public string Data { get; set; }
+        public DateTime Data { get; set; }
 
         /// <summary>
         /// Chave de ativação do Jogo

@@ -61,27 +61,29 @@
 
     </dl>
 
-
-
-
-
-
     <div style="border-top:20px solid transparent; border-left:20px solid transparent">
 
         @foreach (var item in Model.ListaRecursos)
         {
+        <table>
+
+
             <div>
                 <img style=" height: 200px; width: 400px; object-fit:fill;" src="~/fotos/@item.NomeRecurso"
                      alt="Fotografia do jogo"
                      height="50" />
-                </div>
-                    }
-
-                </div>
             </div>
+            </table>
+                }
 
+</div>
+    
+    </div>
+    
 
-            <div>
-                <a asp-action="Edit" asp-route-id="@Model.IdJogo">Edit</a> |
-                <a asp-action="Index">Back to List</a>
-            </div>
+    <input type="submit" value="Comprar" class="btn btn-primary"></input>
+
+    <div>
+        <a asp-action="Edit" asp-route-id="@Model.IdJogo">Edit</a> |
+        <a asp-action="Index">Back to List</a>
+    </div>
