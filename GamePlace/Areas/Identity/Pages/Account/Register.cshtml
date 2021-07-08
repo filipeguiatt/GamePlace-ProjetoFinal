@@ -1,0 +1,71 @@
+﻿ @page
+@model RegisterModel
+@{
+    ViewData["Title"] = "Register";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<form asp-route-returnUrl="@Model.ReturnUrl" method="post">
+    <div class="row">
+        <div class="col-md-4">
+
+            <h4>Criar uma nova conta.</h4>
+            <hr />
+
+            <div asp-validation-summary="All" class="text-danger"></div>
+
+            <div class="form-group">
+                <label asp-for="Input.Email"></label>
+                <input asp-for="Input.Email" class="form-control" />
+                <span asp-validation-for="Input.Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.Password"></label>
+                <input asp-for="Input.Password" class="form-control" />
+                <span asp-validation-for="Input.Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.ConfirmPassword"></label>
+                <input asp-for="Input.ConfirmPassword" class="form-control" />
+                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+            </div>
+            <button type="submit" class="btn btn-primary">Registar</button>
+        </div>
+        <div class="col-md-6 col-md-offset-2">
+            <p><b>Introduza os seus dados pessoais</b></p>
+            <hr />
+            <div class="form-group">
+                <label asp-for="Input.Utilizador.Nome" class="control-label"></label>
+                <input asp-for="Input.Utilizador.Nome" class="form-control" />
+                <span asp-validation-for="Input.Utilizador.Nome" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.Utilizador.Morada" class="control-label"></label>
+                <input asp-for="Input.Utilizador.Morada" class="form-control" />
+                <span asp-validation-for="Input.Utilizador.Morada" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.Utilizador.CodPostal" class="control-label"></label>
+                <input asp-for="Input.Utilizador.CodPostal" class="form-control" />
+                <span asp-validation-for="Input.Utilizador.CodPostal" class="text-danger"></span>
+            </div>
+            @* este EMAIL não vai aqui ser pedido para não confundir o utilizador
+                   depois, necessitará de ser recuperado
+                   <div class="form-group">
+                   <label asp-for="Input.Criador.Email" class="control-label"></label>
+                   <input asp-for="Input.Criador.Email" class="form-control" />
+                   <span asp-validation-for="Input.Criador.Email" class="text-danger"></span>
+                </div>*@
+            <div class="form-group">
+                <label asp-for="Input.Utilizador.Telemovel" class="control-label"></label>
+                <input asp-for="Input.Utilizador.Telemovel" class="form-control" />
+                <span asp-validation-for="Input.Utilizador.Telemovel" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

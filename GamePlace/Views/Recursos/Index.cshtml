@@ -1,0 +1,22 @@
+﻿@model IEnumerable<GamePlace.Models.Recursos>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+@foreach (var item in Model) {
+        <a asp-action="Details" asp-route-id="@item.IdRecursos">
+            <img style=" height: 200px; width: 150px; object-fit:fill;" src="~/fotos/@item.NomeRecurso"
+                 alt="Fotografia do jogo @item.Jogo.Nome"
+                 title="@item.Jogo.Nome"
+                 height="50" />
+
+
+        </a>
+
+}
