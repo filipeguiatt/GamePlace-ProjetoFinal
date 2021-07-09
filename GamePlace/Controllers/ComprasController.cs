@@ -59,7 +59,7 @@ namespace GamePlace.Models
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdCompra,Data,ChaveAtivacao,JogoFK,UtilizadorFK")] Compras compras)
+        public async Task<IActionResult> Create([Bind("IdCompra,Data,JogoFK,UtilizadorFK")] Compras compras)
         {
 
             string chave = "";
@@ -67,7 +67,7 @@ namespace GamePlace.Models
             g = Guid.NewGuid();
             chave = g.ToString();
             compras.ChaveAtivacao = chave;
-
+            
             if (ModelState.IsValid)
             {
                 _context.Add(compras);
