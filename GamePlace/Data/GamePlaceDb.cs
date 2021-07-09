@@ -38,5 +38,6 @@ namespace GamePlace.Data
         public DbSet<UtilizadorRegistado> UtilizadorRegistado { get; set; }
         public DbSet<GamePlace.Models.Jogos> Jogos { get; set; }
         public DbSet<GamePlace.Models.Recursos> Recursos { get; set; }
+        public DbSet<GamePlace.Models.Compras> Compras { get; set; }
     }
 }

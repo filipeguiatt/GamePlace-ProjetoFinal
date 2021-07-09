@@ -10,67 +10,78 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-            <form asp-action="Create" method="post" enctype="multipart/form-data">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <div class="form-group">
-                    <label asp-for="Nome" class="control-label"></label>
-                    <input asp-for="Nome" class="form-control" />
-                    <span asp-validation-for="Nome" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="FotoCapa" class="control-label"></label>
-                    <input name="fotoJogo" type="file" accept=".png,.jpg,.jpeg" style="color:blue;" />
-                    <span asp-validation-for="FotoCapa" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Descricao" class="control-label"></label>
-                    <input asp-for="Descricao" class="form-control" />
-                    <span asp-validation-for="Descricao" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Tamanho" class="control-label"></label>
-                    <input asp-for="Tamanho" class="form-control" />
-                    <span asp-validation-for="Tamanho" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="AnoLancamento" class="control-label"></label>
-                    <input asp-for="AnoLancamento" class="form-control" />
-                    <span asp-validation-for="AnoLancamento" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Genero" class="control-label"></label>
-                    <input asp-for="Genero" class="form-control" />
-                    <span asp-validation-for="Genero" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Preco" class="control-label"></label>
-                    <input asp-for="Preco" class="form-control" />
-                    <span asp-validation-for="Preco" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Classificacao" class="control-label"></label>
-                    <input asp-for="Classificacao" class="form-control" />
-                    <span asp-validation-for="Classificacao" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="FaixaEtaria" class="control-label"></label>
-                    <input asp-for="FaixaEtaria" class="form-control" />
-                    <span asp-validation-for="FaixaEtaria" class="text-danger"></span>
-                </div>
+        <form asp-action="Create" method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Nome" class="control-label"></label>
+                <input asp-for="Nome" class="form-control" />
+                <span asp-validation-for="Nome" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FotoCapa" class="control-label"></label>
+                <input name="fotoJogo" type="file" accept=".png,.jpg,.jpeg" style="color:blue;" />
+                <span asp-validation-for="FotoCapa" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Descricao" class="control-label"></label>
+                <input asp-for="Descricao" class="form-control" />
+                <span asp-validation-for="Descricao" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Tamanho" class="control-label"></label>
+                <input asp-for="Tamanho" class="form-control" />
+                <span asp-validation-for="Tamanho" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AnoLancamento" class="control-label"></label>
+                <input asp-for="AnoLancamento" class="form-control" />
+                <span asp-validation-for="AnoLancamento" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Genero" class="control-label"></label>
+                <input asp-for="Genero" class="form-control" />
+                <span asp-validation-for="Genero" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <button id="AddRecurso" type="button" class="btn btn-primary">Adicionar Recurso</button>
+                </span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Preco" class="control-label"></label>
+                <input asp-for="Preco" class="form-control" />
+                <span asp-validation-for="Preco" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Classificacao" class="control-label"></label>
+                <input asp-for="Classificacao" class="form-control" />
+                <span asp-validation-for="Classificacao" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FaixaEtaria" class="control-label"></label>
+                <input asp-for="FaixaEtaria" class="form-control" />
+                <span asp-validation-for="FaixaEtaria" class="text-danger"></span>
+            </div>
 
-                <div class="form-group">
-                    <input type="submit" value="Create" class="btn btn-primary" />
-                </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
 
 
 
-            </form>
+        </form>
 </div>
 </div>
 
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
+<script>
+    document.getElementById("AddRecurso").onclick = function () { AdicionaRecurso()};
+
+    function AdicionaRecurso(){
+        document.getElementById("AddRecurso").innerHTML = return RedirectToAction();
+    }
+</script>
 
 @section Scripts {
 

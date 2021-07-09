@@ -10,54 +10,54 @@
     <h4>Jogos</h4>
     <hr />
     <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Nome)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Nome)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Descricao)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Descricao)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Tamanho)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Tamanho)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.AnoLancamento)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.AnoLancamento)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Genero)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Genero)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Preco)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Preco)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Classificacao)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Classificacao)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.FaixaEtaria)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.FaixaEtaria)
-        </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Nome)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Nome)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Descricao)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Descricao)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Tamanho)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Tamanho)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.AnoLancamento)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.AnoLancamento)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Genero)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Genero)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Preco)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Preco)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Classificacao)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Classificacao)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.FaixaEtaria)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.FaixaEtaria)
+            </dd>
 
     </dl>
 
@@ -65,25 +65,37 @@
 
         @foreach (var item in Model.ListaRecursos)
         {
-        <table>
+            <table>
 
 
-            <div>
-                <img style=" height: 200px; width: 400px; object-fit:fill;" src="~/fotos/@item.NomeRecurso"
-                     alt="Fotografia do jogo"
-                     height="50" />
-            </div>
+                <div>
+                    <img style=" height: 200px; width: 400px; object-fit:fill;" src="~/fotos/@item.NomeRecurso"
+                         alt="Fotografia do jogo"
+                         height="50" />
+                </div>
             </table>
-                }
+        }
+
+    </div>
 
 </div>
-    
+<form asp-controller="Compras" asp-action="Create" method="post" enctype="multipart/form-data">
+    <div class="form-group">
+        <input type="submit" value="Comprar" class="btn btn-primary" />
     </div>
-    
-
-    <input type="submit" value="Comprar" class="btn btn-primary"></input>
+    </form>
 
     <div>
-        <a asp-action="Edit" asp-route-id="@Model.IdJogo">Edit</a> |
+        <a asp-action="Edit" asp-route-id="@Model.IdJogo">Edit</a>
         <a asp-action="Index">Back to List</a>
     </div>
+
+
+    <script>
+        document.getElementById("compra").onclick = function () { Compra() };
+
+
+        document.write(Compra());
+
+
+    </script>

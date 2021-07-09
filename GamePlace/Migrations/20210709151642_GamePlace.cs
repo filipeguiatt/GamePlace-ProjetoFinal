@@ -218,7 +218,7 @@ namespace GamePlace.Migrations
                 {
                     IdCompra = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Data = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Data = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ChaveAtivacao = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     JogoFK = table.Column<int>(type: "int", nullable: false),
                     UtilizadorFK = table.Column<int>(type: "int", nullable: false)
@@ -243,12 +243,12 @@ namespace GamePlace.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "u", "03b3f988-4e60-4376-b855-9527d0243d1f", "Utilizador", "UTILIZADOR" });
+                values: new object[] { "u", "a8228991-8ee9-4fea-8e94-cd656546eb71", "Utilizador", "UTILIZADOR" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "a", "3104617c-b4e7-4d39-b3f6-570f1494e05c", "Admin", "ADMIN" });
+                values: new object[] { "a", "b18ca9ac-3d81-4eb4-80e7-50fae15a7c0e", "Admin", "ADMIN" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",

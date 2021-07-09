@@ -29,8 +29,8 @@ namespace GamePlace.Migrations
                     b.Property<string>("ChaveAtivacao")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Data")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime>("Data")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("JogoFK")
                         .HasColumnType("int");
@@ -177,14 +177,14 @@ namespace GamePlace.Migrations
                         new
                         {
                             Id = "u",
-                            ConcurrencyStamp = "03b3f988-4e60-4376-b855-9527d0243d1f",
+                            ConcurrencyStamp = "a8228991-8ee9-4fea-8e94-cd656546eb71",
                             Name = "Utilizador",
                             NormalizedName = "UTILIZADOR"
                         },
                         new
                         {
                             Id = "a",
-                            ConcurrencyStamp = "3104617c-b4e7-4d39-b3f6-570f1494e05c",
+                            ConcurrencyStamp = "b18ca9ac-3d81-4eb4-80e7-50fae15a7c0e",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
