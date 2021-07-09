@@ -50,7 +50,7 @@ namespace GamePlace.Models
         public IActionResult Create()
         {
             ViewData["JogoFK"] = new SelectList(_context.Jogos, "IdJogo", "Nome");
-            ViewData["UtilizadorFK"] = new SelectList(_context.UtilizadorRegistado, "Id", "Id");
+            ViewData["UtilizadorFK"] = new SelectList(_context.UtilizadorRegistado, "Id", "Nome");
             return View();
         }
 
@@ -79,7 +79,7 @@ namespace GamePlace.Models
 
 
             ViewData["JogoFK"] = new SelectList(_context.Jogos, "IdJogo", "Nome", compras.JogoFK);
-            ViewData["UtilizadorFK"] = new SelectList(_context.UtilizadorRegistado, "Id", "Id", compras.UtilizadorFK);
+            ViewData["UtilizadorFK"] = new SelectList(_context.UtilizadorRegistado, "Id", "Nome", compras.UtilizadorFK);
             return View(compras);
         }
 

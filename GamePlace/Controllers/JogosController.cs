@@ -149,7 +149,7 @@ namespace GamePlace.Controllers
                         await fotoJogo.CopyToAsync(stream);
 
                         // redireciona a execução do código para a método Index
-                        return RedirectToAction(nameof(Index));
+                        return RedirectToAction(nameof(Create), "Recursos");
                     }
                 }
                 catch (Exception)

@@ -19,7 +19,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="FotoCapa" class="control-label"></label>
-                <input name="fotoJogo" type="file" accept=".png,.jpg,.jpeg" style="color:blue;" />
+                <input name="fotoJogo" type="file" multiple accept=".png,.jpg,.jpeg" style="color:blue;" />
                 <span asp-validation-for="FotoCapa" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -43,9 +43,6 @@
                 <span asp-validation-for="Genero" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <button id="AddRecurso" type="button" class="btn btn-primary">Adicionar Recurso</button>
-            </div>
-            <div class="form-group">
                 <label asp-for="Preco" class="control-label"></label>
                 <input asp-for="Preco" class="form-control" />
                 <span asp-validation-for="Preco" class="text-danger"></span>
@@ -60,15 +57,13 @@
                 <input asp-for="FaixaEtaria" class="form-control" />
                 <span asp-validation-for="FaixaEtaria" class="text-danger"></span>
             </div>
-
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
-
-
-
         </form>
-</div>
+
+
+    </div>
 </div>
 
 <div>

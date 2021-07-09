@@ -84,7 +84,7 @@ namespace GamePlace.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("IdRecursos,NomeRecurso,JogoFK")] Recursos recursos, IFormFile fotoJogoRecurso)
         {
-            
+
             // avaliar se existe ficheiro
             if (fotoJogoRecurso == null)
             {
@@ -100,77 +100,81 @@ namespace GamePlace.Controllers
                 return View();
             }
 
-            // há ficheiro. Mas, será do tipo correto (jpg/jpeg, png)?
-            if (fotoJogoRecurso.ContentType == "image/png" || fotoJogoRecurso.ContentType == "image/jpeg")
+            while (fotoJogoRecurso != null)
             {
-                // o ficheiro é bom
-
-                // definir o nome do ficheiro
-                string nomeFoto = "";
-                Guid g;
-                g = Guid.NewGuid();
-                nomeFoto = recursos.JogoFK + "_" + g.ToString();
-                string extensaoFoto = Path.GetExtension(fotoJogoRecurso.FileName).ToLower();
-                nomeFoto = nomeFoto + extensaoFoto;
-
-                // associar ao objeto 'foto' o nome do ficheiro
-                recursos.NomeRecurso = nomeFoto;
-            }
-            else
-            {
-                // se aqui chego, há ficheiro, mas não foto
-                // se aqui entro, não há foto
-                // notificar o utilizador que há um erro
-                ModelState.AddModelError("", "Deve selecionar uma fotografia...");
-
-                // devolver o controlo à View
-                // prepara os dados a serem enviados para a View
-                // para a Dropdown
-                //  ViewData["CaoFK"] = new SelectList(_db.Caes.OrderBy(c => c.Nome), "Id", "Nome");
-                ViewData["JogoFK"] = new SelectList(_context.Jogos, "IdJogo", "Nome");
-                return View();
-            }
-            if (recursos.JogoFK > 0)
-            {
-                try
+                // há ficheiro. Mas, será do tipo correto (jpg/jpeg, png)?
+                if (fotoJogoRecurso.ContentType == "image/png" || fotoJogoRecurso.ContentType == "image/jpeg")
                 {
-                    if (ModelState.IsValid)
+                    // o ficheiro é bom
+
+                    // definir o nome do ficheiro
+                    string nomeFoto = "";
+                    Guid g;
+                    g = Guid.NewGuid();
+                    nomeFoto = recursos.JogoFK + "_" + g.ToString();
+                    string extensaoFoto = Path.GetExtension(fotoJogoRecurso.FileName).ToLower();
+                    nomeFoto = nomeFoto + extensaoFoto;
+
+                    // associar ao objeto 'foto' o nome do ficheiro
+                    recursos.NomeRecurso = nomeFoto;
+                }
+                else
+                {
+                    // se aqui chego, há ficheiro, mas não foto
+                    // se aqui entro, não há foto
+                    // notificar o utilizador que há um erro
+                    ModelState.AddModelError("", "Deve selecionar uma fotografia...");
+
+                    // devolver o controlo à View
+                    // prepara os dados a serem enviados para a View
+                    // para a Dropdown
+                    //  ViewData["CaoFK"] = new SelectList(_db.Caes.OrderBy(c => c.Nome), "Id", "Nome");
+                    ViewData["JogoFK"] = new SelectList(_context.Jogos, "IdJogo", "Nome");
+                    return View();
+                }
+                if (recursos.JogoFK > 0)
+                {
+                    try
                     {
-                        // se o Estado do Modelo for válido 
-                        // ie., se os dados do objeto 'foto' estiverem de acordo com as regras definidas
-                        // no modelo (classe Fotografias)
+                        if (ModelState.IsValid)
+                        {
+                            // se o Estado do Modelo for válido 
+                            // ie., se os dados do objeto 'foto' estiverem de acordo com as regras definidas
+                            // no modelo (classe Fotografias)
 
-                        // adicionar os dados da 'foto' à base de dados
-                        _context.Add(recursos);
+                            // adicionar os dados da 'foto' à base de dados
 
-                        // consolidar as alterações na base de dados
-                        // COMMIT
-                        await _context.SaveChangesAsync();
+                            _context.Add(recursos);
 
-                        // vou guardar o ficheiro no disco rígido do servidor
-                        // determinar onde guardar o ficheiro
-                        string caminhoAteAoFichFoto = _dadosServidor.WebRootPath;
-                        caminhoAteAoFichFoto = Path.Combine(caminhoAteAoFichFoto, "fotos", recursos.NomeRecurso);
-                        // guardar o ficheiro no Disco Rígido
-                        using var stream = new FileStream(caminhoAteAoFichFoto, FileMode.Create);
-                        await fotoJogoRecurso.CopyToAsync(stream);
+                            // consolidar as alterações na base de dados
+                            // COMMIT
+                            await _context.SaveChangesAsync();
 
-                        // redireciona a execução do código para a método Index
-                        return RedirectToAction(nameof(Index));
+                            // vou guardar o ficheiro no disco rígido do servidor
+                            // determinar onde guardar o ficheiro
+                            string caminhoAteAoFichFoto = _dadosServidor.WebRootPath;
+                            caminhoAteAoFichFoto = Path.Combine(caminhoAteAoFichFoto, "fotos", recursos.NomeRecurso);
+                            // guardar o ficheiro no Disco Rígido
+                            using var stream = new FileStream(caminhoAteAoFichFoto, FileMode.Create);
+                            await fotoJogoRecurso.CopyToAsync(stream);
+                            recursos.JogoFK -= 1;
+                            if(recursos.JogoFK==0)
+                            // redireciona a execução do código para a método Index
+                            return RedirectToAction(nameof(Index), "Jogos");
+                        }
+                    }
+                    catch (Exception)
+                    {
+                        ModelState.AddModelError("", "Ocorreu um erro com a introdução dos dados da Fotografia.");
                     }
                 }
-                catch (Exception)
+                else
                 {
-                    ModelState.AddModelError("", "Ocorreu um erro com a introdução dos dados da Fotografia.");
+                    ModelState.AddModelError("", "Não se esqueça de escolher um jogo...");
                 }
             }
-            else
-            {
-                ModelState.AddModelError("", "Não se esqueça de escolher um jogo...");
-            }
-
             ViewData["JogoFK"] = new SelectList(_context.Jogos, "IdJogo", "Nome");
-            return View(recursos);
+                return View(recursos);
         }
 
         // GET: Recursos/Edit/5
@@ -220,6 +224,7 @@ namespace GamePlace.Controllers
                         throw;
                     }
                 }
+ 
                 return RedirectToAction(nameof(Index));
             }
             ViewData["JogoFK"] = new SelectList(_context.Jogos, "IdJogo", "Nome", recursos.JogoFK);
