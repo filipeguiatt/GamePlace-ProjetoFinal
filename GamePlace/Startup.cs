@@ -60,7 +60,7 @@ namespace GamePlace
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Jogos}/{action=Index}");
                 endpoints.MapRazorPages();
             });
         }

@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GamePlace.Migrations
 {
     [DbContext(typeof(GamePlaceDb))]
-    [Migration("20210709151642_GamePlace")]
-    partial class GamePlace
+    [Migration("20210710192723_GamePlace1")]
+    partial class GamePlace1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -179,14 +179,14 @@ namespace GamePlace.Migrations
                         new
                         {
                             Id = "u",
-                            ConcurrencyStamp = "a8228991-8ee9-4fea-8e94-cd656546eb71",
+                            ConcurrencyStamp = "8ac1a0da-6497-42ad-96d5-64a299728b0b",
                             Name = "Utilizador",
                             NormalizedName = "UTILIZADOR"
                         },
                         new
                         {
                             Id = "a",
-                            ConcurrencyStamp = "b18ca9ac-3d81-4eb4-80e7-50fae15a7c0e",
+                            ConcurrencyStamp = "9a2b1ac4-357c-49d4-a03d-b69e9e7442ba",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });

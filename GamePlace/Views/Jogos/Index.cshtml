@@ -4,23 +4,26 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    @if (User.IsInRole("Admin"))
+    {<a id="CriarJogo" asp-action="Create"> Create New </a>}
 </p>
 
 
 @foreach (var item in Model)
 {
-    <a asp-action="Details" asp-route-id="@item.IdJogo">
-        <img style=" height: 200px; width: 150px; object-fit:fill;" src="~/fotos/@item.FotoCapa"
-             alt="Fotografia do jogo @item.Nome"
-             title="@item.Nome"
-             height="50" />
+    
+<a asp-action="Details" asp-route-id="@item.IdJogo">
+    <img style=" height: 200px; width: 150px; object-fit:fill;" src="~/fotos/@item.FotoCapa"
+         alt="Fotografia do jogo @item.Nome"
+         title="@item.Nome"
+         height="50" />
 
 
-    </a>
+
+
+</a>
 
 }
 

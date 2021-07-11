@@ -21,6 +21,9 @@ namespace GamePlace.Models
         // GET: Compras
         public async Task<IActionResult> Index()
         {
+
+            var nome = User.Identity.Name;
+
             var gamePlaceDb = _context.Compras.Include(c => c.Jogo).Include(c => c.Utilizador);
             return View(await gamePlaceDb.ToListAsync());
         }
@@ -61,26 +64,39 @@ namespace GamePlace.Models
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("IdCompra,Data,JogoFK,UtilizadorFK")] Compras compras)
         {
-
-            string chave = "";
-            Guid g;
-            g = Guid.NewGuid();
-            chave = g.ToString();
-            compras.ChaveAtivacao = chave;
-            
-            if (ModelState.IsValid)
+            if (!User.IsInRole("Admin"))
             {
-                _context.Add(compras);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+            if (User.Identity.IsAuthenticated)
+            {
+
+                string chave = "";
+                Guid g;
+                g = Guid.NewGuid();
+                chave = g.ToString();
+                compras.ChaveAtivacao = chave;
+
+                if (ModelState.IsValid)
+                {
+                    _context.Add(compras);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+
+
+
+
+                ViewData["JogoFK"] = new SelectList(_context.Jogos, "IdJogo", "Nome", compras.JogoFK);
+                ViewData["UtilizadorFK"] = new SelectList(_context.UtilizadorRegistado, "Id", "Nome", compras.UtilizadorFK);
             }
-
-
-
-
-            ViewData["JogoFK"] = new SelectList(_context.Jogos, "IdJogo", "Nome", compras.JogoFK);
-            ViewData["UtilizadorFK"] = new SelectList(_context.UtilizadorRegistado, "Id", "Nome", compras.UtilizadorFK);
-            return View(compras);
+            else
+            {
+                ModelState.AddModelError("", "Please Login!");
+            }
+        }else
+                ModelState.AddModelError("", "O Admin nao ira fazer compras!");
+            return View(compras); 
+           
+            
         }
 
         // GET: Compras/Edit/5

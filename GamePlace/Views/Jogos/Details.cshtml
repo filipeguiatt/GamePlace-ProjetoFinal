@@ -3,19 +3,11 @@
 @{
     ViewData["Title"] = "Details";
 }
-
-<h1>Details</h1>
-
-<div>
-    <h4>Jogos</h4>
-    <hr />
-    <dl class="row">
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Nome)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.Nome)
-            </dd>
+<body style=" background-color: #e9f3ff; background-image:none">
+    <h1 style="text-align:center;color:cornflowerblue">@Html.DisplayFor(model => model.Nome)</h1>
+    <div>
+        <hr />
+        <dl class="row">
             <dt class="col-sm-2">
                 @Html.DisplayNameFor(model => model.Descricao)
             </dt>
@@ -59,33 +51,58 @@
                 @Html.DisplayFor(model => model.FaixaEtaria)
             </dd>
 
-    </dl>
-
-    <div style="border-top:20px solid transparent; border-left:20px solid transparent">
-
-        @foreach (var item in Model.ListaRecursos)
-        {
-           
-
-
-                <div>
-                    <img style=" height: 200px; width: 400px; object-fit:fill;" src="~/fotos/@item.NomeRecurso"
-                         alt="Fotografia do jogo"
-                         height="50" />
-                </div>
-          
-        }
-
+        </dl>
     </div>
 
-</div>
-<form asp-controller="Compras" asp-action="Create" method="get" enctype="multipart/form-data">
-    <div class="form-group">
-        <input type="submit" value="Comprar" class="btn btn-primary" />
-    </div>
+    @foreach (var item in Model.ListaRecursos)
+    {
+
+
+        <img class="mySlides" src="~/fotos/@item.NomeRecurso" style=" width:100%; margin-top: 50px;
+        height: 350px;
+        width: 75%;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+"
+             alt="Fotografia do jogo">
+
+    }
+
+    <button class="prev" onclick="plusDivs(-1)">&#10094;</button>
+    <button class="next" onclick="plusDivs(+1)">&#10095;</button>
+
+    <form asp-controller="Compras" asp-action="Create" method="get" enctype="multipart/form-data">
+        <div class="form-group">
+            <input style="margin-top: 50px; display:block; margin-left: auto; margin-right: auto;" type="submit" value="Comprar" class="btn btn-primary" />
+        </div>
     </form>
 
     <div>
-        <a asp-action="Edit" asp-route-id="@Model.IdJogo">Edit</a>
+        @if (User.IsInRole("Admin"))
+        {
+            <a asp-action="Edit" asp-route-id="@Model.IdJogo">Edit</a>
+        }
         <a asp-action="Index">Back to List</a>
+
     </div>
+</body>
+    <script>
+        var slideIndex = 1;
+        showDivs(slideIndex);
+
+        function plusDivs(n) {
+            showDivs(slideIndex += n);
+        }
+
+        function showDivs(n) {
+            var i;
+            var x = document.getElementsByClassName("mySlides");
+            if (n > x.length) { slideIndex = 1 }
+            if (n < 1) { slideIndex = x.length };
+            for (i = 0; i < x.length; i++) {
+                x[i].style.display = "none";
+            }
+            x[slideIndex - 1].style.display = "block";
+        }
+    </script>

@@ -4,14 +4,16 @@ using GamePlace.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GamePlace.Migrations
 {
     [DbContext(typeof(GamePlaceDb))]
-    partial class GamePlaceDbModelSnapshot : ModelSnapshot
+    [Migration("20210710195504_Gameplae")]
+    partial class Gameplae
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

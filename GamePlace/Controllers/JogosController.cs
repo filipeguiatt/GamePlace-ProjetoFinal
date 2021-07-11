@@ -36,10 +36,11 @@ namespace GamePlace.Controllers
             _dadosServidor = dadosServidor;
             _userManager = userManager;
         }
-
         // GET: Jogos
         public async Task<IActionResult> Index()
         {
+            //var applicationDbContext = _context.Jogos.Include(r => r.Jogo).Include(r => r.Utilizador);
+            //if (_context)
             var gamePlaceDb = _context.Jogos.Include(r => r.IdJogo);
             return View(await _context.Jogos.ToListAsync());
         }

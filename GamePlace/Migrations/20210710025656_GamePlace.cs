@@ -243,12 +243,12 @@ namespace GamePlace.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "u", "a8228991-8ee9-4fea-8e94-cd656546eb71", "Utilizador", "UTILIZADOR" });
+                values: new object[] { "u", "74d627d1-ea42-4282-8238-c9d988e3326d", "Utilizador", "UTILIZADOR" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "a", "b18ca9ac-3d81-4eb4-80e7-50fae15a7c0e", "Admin", "ADMIN" });
+                values: new object[] { "a", "504cd1d7-f15c-4489-8ea3-f325f8f85c69", "Admin", "ADMIN" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",

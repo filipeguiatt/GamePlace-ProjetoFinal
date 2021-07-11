@@ -10,6 +10,7 @@ namespace GamePlace.Models
         /// Identificador de cada Recurso
         /// </summary>
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int IdRecursos { get; set; }
 
         /// <summary>
