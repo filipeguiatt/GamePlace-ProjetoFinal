@@ -150,13 +150,13 @@ namespace GamePlace.Controllers
 
                                 _context.Recursos.Add(recursos);
 
-                                // consolidar as alterações na base de dados
-                                // COMMIT
-                                
+                            // consolidar as alterações na base de dados
+                            // COMMIT
+                            await _context.SaveChangesAsync();
 
-                                // vou guardar o ficheiro no disco rígido do servidor
-                                // determinar onde guardar o ficheiro
-                                string caminhoAteAoFichFoto = _dadosServidor.WebRootPath;
+                            // vou guardar o ficheiro no disco rígido do servidor
+                            // determinar onde guardar o ficheiro
+                            string caminhoAteAoFichFoto = _dadosServidor.WebRootPath;
                                 caminhoAteAoFichFoto = Path.Combine(caminhoAteAoFichFoto, "fotos", recursos.NomeRecurso);
                                 // guardar o ficheiro no Disco Rígido
                                 using var stream = new FileStream(caminhoAteAoFichFoto, FileMode.Create);
@@ -173,7 +173,7 @@ namespace GamePlace.Controllers
                         ModelState.AddModelError("", "Não se esqueça de escolher um jogo...");
                     }
             }
-            await _context.SaveChangesAsync();
+            
             // redireciona a execução do código para a método Index
             return RedirectToAction(nameof(Index), "Jogos");
         }
