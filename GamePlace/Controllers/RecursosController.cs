@@ -150,9 +150,7 @@ namespace GamePlace.Controllers
 
                                 _context.Recursos.Add(recursos);
 
-                            // consolidar as alterações na base de dados
-                            // COMMIT
-                            await _context.SaveChangesAsync();
+                            
 
                             // vou guardar o ficheiro no disco rígido do servidor
                             // determinar onde guardar o ficheiro
@@ -173,7 +171,10 @@ namespace GamePlace.Controllers
                         ModelState.AddModelError("", "Não se esqueça de escolher um jogo...");
                     }
             }
-            
+
+            // consolidar as alterações na base de dados
+            // COMMIT
+            await _context.SaveChangesAsync();
             // redireciona a execução do código para a método Index
             return RedirectToAction(nameof(Index), "Jogos");
         }
