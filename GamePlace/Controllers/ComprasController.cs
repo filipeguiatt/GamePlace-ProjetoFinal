@@ -6,16 +6,24 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using GamePlace.Data;
+using Microsoft.AspNetCore.Identity;
 
 namespace GamePlace.Models
 {
     public class ComprasController : Controller
     {
         private readonly GamePlaceDb _context;
+        /// <summary>
+        /// Atributo que irá receber todos os dados referentes à
+        /// pessoa q se autenticou no sistema
+        /// </summary>
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public ComprasController(GamePlaceDb context)
+        public ComprasController(GamePlaceDb context,
+         UserManager<IdentityUser> usermanager)
         {
             _context = context;
+            _userManager = usermanager;
         }
 
         // GET: Compras
@@ -70,21 +78,18 @@ namespace GamePlace.Models
             {
             if (User.Identity.IsAuthenticated)
             {
+                    //var utilizador = _context.UtilizadorRegistado.Where(u => u.UserNameId == _userManager.GetUserId(User)).FirstOrDefault();
+                    //var jogoId = _context.Jogos.Where(u => u.IdJogo
+                    //Adiciona a data atual ao jogo comprado
+                    //compras.Data = DateTime.Now;
+                    //compras.JogoFK =
+                    //compras.JogoFK = _context.Jogos.;
+                    
+                   // compras.UtilizadorFK = utilizador.Id;
 
-                //Adiciona a data atual ao jogo comprado
-                compras.Data = DateTime.Now;
 
-                    compras.JogoFK = jogos.IdJogo;
 
-                    compras.UtilizadorFK = user.Id;
-
-                
-
-                string chave = "";
-                Guid g;
-                g = Guid.NewGuid();
-                chave = g.ToString();
-                compras.ChaveAtivacao = chave;
+                    
 
                 if (ModelState.IsValid)
                 {

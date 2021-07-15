@@ -72,9 +72,12 @@
     <button class="prev" onclick="plusDivs(-1)">&#10094;</button>
     <button class="next" onclick="plusDivs(+1)">&#10095;</button>
 
-    <form asp-controller="Compras" asp-action="Create" method="get" enctype="multipart/form-data">
-        <div class="form-group">
-            <input style="margin-top: 50px; display:block; margin-left: auto; margin-right: auto;" type="submit" value="Comprar" class="btn btn-primary" />
+    <form asp-action="CreateCompra">
+        <div style="border-top:20px solid transparent; border-left:15px solid transparent">
+            <input type="hidden" name="jogoId" value="@Model.IdJogo" />
+            <div style="border-top: 10px solid transparent; border-bottom: 25px solid transparent">
+                <input style="margin-top: 50px; display:block; margin-left: auto; margin-right: auto;" type="submit" value="Comprar" class="btn btn-primary" />
+            </div>
         </div>
     </form>
 

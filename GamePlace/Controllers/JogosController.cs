@@ -43,6 +43,7 @@ namespace GamePlace.Controllers
             //var applicationDbContext = _context.Jogos.Include(r => r.Jogo).Include(r => r.Utilizador);
             //if (_context)
             var gamePlaceDb = _context.Jogos.Include(r => r.IdJogo);
+
             return View(await _context.Jogos.ToListAsync());
         }
 
@@ -95,9 +96,9 @@ namespace GamePlace.Controllers
                 return View();
             }
 
-                // 1.
-                // validar se a lista de Recurso está vazia
-                // se estiver, fazer como na Capa
+            // 1.
+            // validar se a lista de Recurso está vazia
+            // se estiver, fazer como na Capa
             if (fotoJogoRecursos == null)
             {
                 // se aqui entro, não há foto
@@ -173,7 +174,7 @@ namespace GamePlace.Controllers
 
             //////////////////////////////////////////////////LISTA-RECURSOS///////////////////////////////////////////////////////////////////////////////////
 
-            
+
 
             // 2.
             // fazer aqui o código que está no Controller dos Recursos, para adicionar as fotos dos recursos
@@ -195,7 +196,7 @@ namespace GamePlace.Controllers
                     string extensaoFoto = Path.GetExtension(fotoJogo.FileName).ToLower();
                     nomeFoto = nomeFoto + extensaoFoto;
 
-                    
+
                     recurso.NomeRecurso = nomeFoto;
                     jogo.ListaRecursos.Add(recurso);
                     // associar ao objeto 'foto' o nome do ficheiro
@@ -218,35 +219,35 @@ namespace GamePlace.Controllers
 
                 // 3. 
                 // adicionar ao 'jogo' a lista de recursos
-                
+
 
                 //foreach (var recu in jogo.ListaRecursos)
                 //{
-                    try
+                try
+                {
+                    if (ModelState.IsValid)
                     {
-                        if (ModelState.IsValid)
-                        {
-                            // se o Estado do Modelo for válido 
-                            // ie., se os dados do objeto 'foto' estiverem de acordo com as regras definidas
-                            // no modelo (classe Fotografias)
+                        // se o Estado do Modelo for válido 
+                        // ie., se os dados do objeto 'foto' estiverem de acordo com as regras definidas
+                        // no modelo (classe Fotografias)
 
-                            // adicionar os dados da 'foto' à base de dados
-                            _context.Add(jogo);
+                        // adicionar os dados da 'foto' à base de dados
+                        _context.Add(jogo);
 
-                            // vou guardar o ficheiro no disco rígido do servidor
-                            // determinar onde guardar o ficheiro
-                            string caminhoAteAoFichFoto = _dadosServidor.WebRootPath;
-                            caminhoAteAoFichFoto = Path.Combine(caminhoAteAoFichFoto, "fotos", recurso.NomeRecurso);
-                            // guardar o ficheiro no Disco Rígido
-                            using var stream = new FileStream(caminhoAteAoFichFoto, FileMode.Create);
-                            imag.CopyTo(stream);
+                        // vou guardar o ficheiro no disco rígido do servidor
+                        // determinar onde guardar o ficheiro
+                        string caminhoAteAoFichFoto = _dadosServidor.WebRootPath;
+                        caminhoAteAoFichFoto = Path.Combine(caminhoAteAoFichFoto, "fotos", recurso.NomeRecurso);
+                        // guardar o ficheiro no Disco Rígido
+                        using var stream = new FileStream(caminhoAteAoFichFoto, FileMode.Create);
+                        imag.CopyTo(stream);
 
                     }
-                    }
-                    catch (Exception)
-                    {
-                        ModelState.AddModelError("", "Ocorreu um erro com a introdução dos dados da Fotografia.");
-                    }
+                }
+                catch (Exception)
+                {
+                    ModelState.AddModelError("", "Ocorreu um erro com a introdução dos dados da Fotografia.");
+                }
             }
             //jogo.ListaRecursos = listaRecursos;
 
@@ -255,7 +256,6 @@ namespace GamePlace.Controllers
             await _context.SaveChangesAsync();
             // redireciona a execução do código para a método Index
             return RedirectToAction(nameof(Index), "Jogos");
-
 
             return View(jogo);
         }
@@ -343,6 +343,47 @@ namespace GamePlace.Controllers
         private bool JogosExists(int id)
         {
             return _context.Jogos.Any(e => e.IdJogo == id);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateCompra(int jogoId)
+        {
+            if (!User.IsInRole("Admin"))
+            {
+                if (User.Identity.IsAuthenticated)
+                {
+                    //variável que vai buscar o Utilizador que escreveu a Review
+                    var utilizador = _context.UtilizadorRegistado.Where(u => u.UserNameId == _userManager.GetUserId(User)).FirstOrDefault();
+                    Guid g;
+                    g = Guid.NewGuid();
+                    var chave = g.ToString();
+
+                    //Colocar nos dados da Review os daods introduzidos pelo Utilizador
+                    var compra = new Compras
+                    {
+                        Utilizador = utilizador,
+                        Data = DateTime.Now,
+                        JogoFK = jogoId,
+                        ChaveAtivacao = chave
+                    };
+
+                    //Adiciona a base de dados a review
+                    _context.Add(compra);
+                    await _context.SaveChangesAsync();
+                    //Guarda as alterações feitas na base de dados
+                    return RedirectToAction(nameof(Index), "Compras");
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Please Login!");
+                }
+            }
+            else
+                ModelState.AddModelError("", "O Admin nao ira fazer compras!");
+            return RedirectToAction(nameof(Details), new { id = jogoId });
+
+
         }
     }
 }

@@ -45,8 +45,8 @@ namespace GamePlace.Models
         /// Tamanho do Jogo
         /// </summary>
         [Required(ErrorMessage = "O Tamanho do Jogo é de preenchimento obrigatório")]
-        [StringLength(5, ErrorMessage = "O {0} não pode ter mais de {1} caracteres.")]
-        [RegularExpression("([0-9])Gb", ErrorMessage = "Só são aceites Gb como medida de tamanho.")]
+        [StringLength(7, ErrorMessage = "O {0} não pode ter mais de {1} caracteres.")]
+        [RegularExpression("(([0-9]{2,3})|(([0-9]{1,3})(,)[0-9]))Gb", ErrorMessage = "Insira um Tamanho válido em Gb")]
         public string Tamanho { get; set; }
 
         /// <summary>
@@ -54,7 +54,7 @@ namespace GamePlace.Models
         /// </summary>
         [Required(ErrorMessage = "O Ano de Lançamento é de preenchimento obrigatório")]
         [StringLength(4, ErrorMessage = "O {0} não pode ter mais de {1} caracteres.")]
-        [RegularExpression("([0-9])", ErrorMessage = "Só são aceites algarismos.")]
+        [RegularExpression("[0-9]{4}", ErrorMessage = "Só são aceites 4 algarismos.")]
         public string AnoLancamento { get; set; }
 
         /// <summary>
@@ -62,7 +62,6 @@ namespace GamePlace.Models
         /// </summary>
         [Required(ErrorMessage = "O Genero é de preenchimento obrigatório")]
         [StringLength(15, ErrorMessage = "O {0} não pode ter mais de {1} caracteres.")]
-        [RegularExpression("([a-z][A-Z])", ErrorMessage = "Só são aceites caracteres.")]
         public string Genero { get; set; }
 
         /// <summary>
@@ -70,7 +69,6 @@ namespace GamePlace.Models
         /// </summary>
         [Required(ErrorMessage = "O Preço é de preenchimento obrigatório")]
         [StringLength(6, ErrorMessage = "O {0} não pode ter mais de {1} caracteres.")]
-        [RegularExpression("(([0-9],)€)", ErrorMessage = "Só são aceites algarismos e € como moeda de pagamento.")]
         public string Preco { get; set; }
 
         /// <summary>
@@ -78,7 +76,7 @@ namespace GamePlace.Models
         /// </summary>
         [Required(ErrorMessage = "A Classificacao é de preenchimento obrigatório")]
         [StringLength(3, ErrorMessage = "O {0} não pode ter mais de {1} caracteres.")]
-        [RegularExpression("([0-9],)", ErrorMessage = "Só são aceites algarismos.")]
+        [RegularExpression("([0-5])", ErrorMessage = "Só são aceites algarismos inteiros de 0 a 5")]
         public string Classificacao { get; set; }
 
         /// <summary>
@@ -86,7 +84,7 @@ namespace GamePlace.Models
         /// </summary>
         [Required(ErrorMessage = "A Classificacao é de preenchimento obrigatório")]
         [StringLength(3, ErrorMessage = "O {0} não pode ter mais de {1} caracteres.")]
-        [RegularExpression("(([0-9])+)", ErrorMessage = "Só são aceites algarismos.")]
+        [RegularExpression("([0-9]{1,2})", ErrorMessage = "Só são aceites algarismos.")]
         public string FaixaEtaria { get; set; }
 
         /// <summary>

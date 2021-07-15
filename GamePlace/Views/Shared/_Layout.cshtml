@@ -9,25 +9,26 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     @* <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css?parameter=1" rel="stylesheet">*@
 </head>
-<body background="../fotos/wallpaper.jpg">
+<body  background="../fotos/imgBack.jpg">
+    @*background="../fotos/imgBack.png"*@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <a class="navbar-brand" asp-area="" asp-controller="Jogos" asp-action="Index">
                 <img src="~/fotos/logoPeq.png" width="110" height="50" />
             </a>
-                <div class="container">
-                    
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                            aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+            <div class="container">
 
-                        <ul class="navbar-nav flex-grow-1">
-                        </ul>
-                        <partial name="_LoginPartial" />
-                    </div>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+
+                    <ul class="navbar-nav flex-grow-1">
+                    </ul>
+                    <partial name="_LoginPartial" />
                 </div>
+            </div>
         </nav>
 
     </header>
@@ -37,8 +38,8 @@
         </main>
     </div>
 
-    <footer style="background-color:white"class="border-top footer text-muted">
-        <div style="text-align:center"class="container">
+    <footer style="background-color:white" class="border-top footer text-muted">
+        <div style="text-align:center" class="container">
             &copy; 2021 - GamePlace <a asp-area="" asp-controller="Home"></a>
         </div>
     </footer>
