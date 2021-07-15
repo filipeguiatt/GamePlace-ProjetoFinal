@@ -173,15 +173,15 @@ namespace GamePlace.Controllers
 
             //////////////////////////////////////////////////LISTA-RECURSOS///////////////////////////////////////////////////////////////////////////////////
 
-            Recursos recurso = new Recursos();
+            
 
             // 2.
-            var listaRecursos = new List<Recursos>();
             // fazer aqui o código que está no Controller dos Recursos, para adicionar as fotos dos recursos
             // na prática é fazer até 3 vezes o que fizeram para a Foto Capa
             // em cada iteração, criar um objeto 'Recurso', adicionar-lhes os dados do recurso
             foreach (var imag in fotoJogoRecursos)
             {
+                Recursos recurso = new Recursos();
                 // há ficheiro. Mas, será do tipo correto (jpg/jpeg, png)?
                 if (fotoJogo.ContentType == "image/png" || fotoJogo.ContentType == "image/jpeg")
                 {
@@ -195,8 +195,9 @@ namespace GamePlace.Controllers
                     string extensaoFoto = Path.GetExtension(fotoJogo.FileName).ToLower();
                     nomeFoto = nomeFoto + extensaoFoto;
 
+                    
                     recurso.NomeRecurso = nomeFoto;
-                    listaRecursos.Add(recurso);
+                    jogo.ListaRecursos.Add(recurso);
                     // associar ao objeto 'foto' o nome do ficheiro
                     //jogo.FotoCapa = nomeFoto;
                 }
@@ -217,10 +218,10 @@ namespace GamePlace.Controllers
 
                 // 3. 
                 // adicionar ao 'jogo' a lista de recursos
-                jogo.ListaRecursos = listaRecursos;
+                
 
-                foreach (var recu in listaRecursos)
-                {
+                //foreach (var recu in jogo.ListaRecursos)
+                //{
                     try
                     {
                         if (ModelState.IsValid)
@@ -232,30 +233,22 @@ namespace GamePlace.Controllers
                             // adicionar os dados da 'foto' à base de dados
                             _context.Add(jogo);
 
-                            
-
                             // vou guardar o ficheiro no disco rígido do servidor
                             // determinar onde guardar o ficheiro
                             string caminhoAteAoFichFoto = _dadosServidor.WebRootPath;
                             caminhoAteAoFichFoto = Path.Combine(caminhoAteAoFichFoto, "fotos", recurso.NomeRecurso);
                             // guardar o ficheiro no Disco Rígido
                             using var stream = new FileStream(caminhoAteAoFichFoto, FileMode.Create);
-                            await imag.CopyToAsync(stream);
+                            imag.CopyTo(stream);
 
-                            // 4.
-                            // guardar no disco rígido todos os ficheiros dos recursos
-
-
-                           
-                        }
+                    }
                     }
                     catch (Exception)
                     {
                         ModelState.AddModelError("", "Ocorreu um erro com a introdução dos dados da Fotografia.");
                     }
-                }
             }
-
+            //jogo.ListaRecursos = listaRecursos;
 
             // consolidar as alterações na base de dados
             // COMMIT

@@ -194,3 +194,7 @@ body {
     }
 }
 
+.createLabel {
+    color: honeydew;
+    font-weight: bold;
+}

@@ -41,16 +41,18 @@ namespace GamePlace.Models
                 .Include(c => c.Jogo)
                 .Include(c => c.Utilizador)
                 .FirstOrDefaultAsync(m => m.IdCompra == id);
+
             if (compras == null)
             {
                 return NotFound();
             }
 
+
             return View(compras);
         }
 
         // GET: Compras/Create
-        public IActionResult Create()
+        public IActionResult Create(int? id)
         {
             ViewData["JogoFK"] = new SelectList(_context.Jogos, "IdJogo", "Nome");
             ViewData["UtilizadorFK"] = new SelectList(_context.UtilizadorRegistado, "Id", "Nome");
@@ -62,12 +64,21 @@ namespace GamePlace.Models
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdCompra,Data,JogoFK,UtilizadorFK")] Compras compras)
+        public async Task<IActionResult> Create([Bind("IdCompra,Data,JogoFK,UtilizadorFK")] Compras compras, Jogos jogos, UtilizadorRegistado user)
         {
             if (!User.IsInRole("Admin"))
             {
             if (User.Identity.IsAuthenticated)
             {
+
+                //Adiciona a data atual ao jogo comprado
+                compras.Data = DateTime.Now;
+
+                    compras.JogoFK = jogos.IdJogo;
+
+                    compras.UtilizadorFK = user.Id;
+
+                
 
                 string chave = "";
                 Guid g;
