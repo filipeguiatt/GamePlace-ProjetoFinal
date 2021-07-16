@@ -38,13 +38,22 @@ namespace GamePlace.Controllers
             _userManager = userManager;
         }
         // GET: Jogos
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
-            //var applicationDbContext = _context.Jogos.Include(r => r.Jogo).Include(r => r.Utilizador);
-            //if (_context)
-            var gamePlaceDb = _context.Jogos.Include(r => r.IdJogo);
+            var jogoPesquisado = from m in _context.Jogos
+                         select m;
 
-            return View(await _context.Jogos.ToListAsync());
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                jogoPesquisado = jogoPesquisado.Where(s => s.Nome.Contains(searchString));
+            }
+            else
+            {
+                var gamePlaceDb = _context.Jogos.Include(r => r.IdJogo);
+                return View(await _context.Jogos.ToListAsync());
+            }
+
+            return View(await jogoPesquisado.ToListAsync());
         }
 
         // GET: Jogos/Details/5
