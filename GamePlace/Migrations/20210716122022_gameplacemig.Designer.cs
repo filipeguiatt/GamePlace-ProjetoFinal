@@ -4,14 +4,16 @@ using GamePlace.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GamePlace.Migrations
 {
     [DbContext(typeof(GamePlaceDb))]
-    partial class GamePlaceDbModelSnapshot : ModelSnapshot
+    [Migration("20210716122022_gameplacemig")]
+    partial class gameplacemig
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -193,14 +195,14 @@ namespace GamePlace.Migrations
                         new
                         {
                             Id = "u",
-                            ConcurrencyStamp = "6e9155e6-b79c-4d62-8a10-cca78301a771",
+                            ConcurrencyStamp = "7bad6ea8-b26c-40ae-a0da-68a73e1721de",
                             Name = "Utilizador",
                             NormalizedName = "UTILIZADOR"
                         },
                         new
                         {
                             Id = "a",
-                            ConcurrencyStamp = "389f1bf6-f393-4c2c-a52f-a87512c74e79",
+                            ConcurrencyStamp = "78b1b46b-cd12-446d-ac3d-1ab40f47ed5a",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });

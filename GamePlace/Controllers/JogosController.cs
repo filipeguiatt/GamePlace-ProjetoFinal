@@ -37,9 +37,20 @@ namespace GamePlace.Controllers
             _dadosServidor = dadosServidor;
             _userManager = userManager;
         }
+        Favoritos fav = new Favoritos();
         // GET: Jogos
-        public async Task<IActionResult> Index(string searchString)
+        public async Task<IActionResult> Index(string searchString, string favorito, int jogoFav, Jogos jogo) 
         {
+            if (favorito == "favorito")
+            {
+                var jogos = await _context.Jogos
+                                   .Where(a => a.IdJogo.ToString() == jogoFav.ToString()).FirstOrDefaultAsync();
+                fav.ListaJogos.Add(jogos);
+                var gamePlaceDb = _context.Jogos.Include(r => r.IdJogo);
+                //adicionar jogo aos favoritos na base de dados
+                return View(await _context.Jogos.ToListAsync());
+            }
+
             var jogoPesquisado = from m in _context.Jogos
                          select m;
 
@@ -89,8 +100,9 @@ namespace GamePlace.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Nome,FotoCapa,Descricao,Tamanho,AnoLancamento,Genero,Preco,Classificacao,FaixaEtaria")] Jogos jogo, IFormFile fotoJogo, List<IFormFile> fotoJogoRecursos)
+        public async Task<IActionResult> Create([Bind("Nome,FotoCapa,Descricao,Tamanho,AnoLancamento,Genero,Preco,Classificacao,FaixaEtaria")]Jogos jogo, IFormFile fotoJogo, List<IFormFile> fotoJogoRecursos)
         {
+
             if (fotoJogo == null)
             {
                 // se aqui entro, não há foto
@@ -265,8 +277,6 @@ namespace GamePlace.Controllers
             await _context.SaveChangesAsync();
             // redireciona a execução do código para a método Index
             return RedirectToAction(nameof(Index), "Jogos");
-
-            return View(jogo);
         }
 
         // GET: Jogos/Edit/5
@@ -358,6 +368,7 @@ namespace GamePlace.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateCompra(int jogoId)
         {
+
             if (!User.IsInRole("Admin"))
             {
                 if (User.Identity.IsAuthenticated)

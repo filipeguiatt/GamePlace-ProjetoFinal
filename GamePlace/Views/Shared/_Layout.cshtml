@@ -17,21 +17,25 @@
             <a class="navbar-brand" asp-area="" asp-controller="Jogos" asp-action="Index">
                 <img src="~/fotos/logoPeq.png" width="110" height="50" />
             </a>
-            <div class="container">
-                <form asp-controller="Jogos" asp-action="Index">
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <input type="text" placeholder="Search.." name="SearchString">
-                    <button type="submit"><i class="fa fa-search"></i></button>
-
-                </form>
+            <div class="container" width="-1800px">
+                
                         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                                 aria-expanded="false" aria-label="Toggle navigation">
                             <span class="navbar-toggler-icon"></span>
                         </button>
                         <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                            <form asp-controller="Jogos" asp-action="Index" style="margin-left: 25%; border-radius: 25px; width: 500px">
+                                <div asp-validation-summary="ModelOnly" style="margin: auto; border-radius: 25px;" class="text-danger"></div>
+                                <input type="text" style="border-radius: 25px; width: 450px" placeholder="Search.." name="SearchString">
+                                <button type="submit" style="border-radius: 25px"><i class="fa fa-search"></i></button>
+                            </form>
+                                <ul class="navbar-nav flex-grow-1">
 
-                            <ul class="navbar-nav flex-grow-1">
+
+
+                            
                             </ul>
+                            <button><i class="fa fa-star" aria-hidden="true"></i></button>
                             <partial name="_LoginPartial" />
                         </div>
 </div>

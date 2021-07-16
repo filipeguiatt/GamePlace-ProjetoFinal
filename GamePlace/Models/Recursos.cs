@@ -25,11 +25,5 @@ namespace GamePlace.Models
         public int JogoFK { get; set; }
         public Jogos Jogo { get; set; }
 
-
-
-
-
-
-
     }
 }
