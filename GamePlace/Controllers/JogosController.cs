@@ -37,22 +37,11 @@ namespace GamePlace.Controllers
             _dadosServidor = dadosServidor;
             _userManager = userManager;
         }
-        Favoritos fav = new Favoritos();
         // GET: Jogos
-        public async Task<IActionResult> Index(string searchString, string favorito, int jogoFav, Jogos jogo) 
+        public async Task<IActionResult> Index(string searchString,Jogos jogo)
         {
-            if (favorito == "favorito")
-            {
-                var jogos = await _context.Jogos
-                                   .Where(a => a.IdJogo.ToString() == jogoFav.ToString()).FirstOrDefaultAsync();
-                fav.ListaJogos.Add(jogos);
-                var gamePlaceDb = _context.Jogos.Include(r => r.IdJogo);
-                //adicionar jogo aos favoritos na base de dados
-                return View(await _context.Jogos.ToListAsync());
-            }
-
             var jogoPesquisado = from m in _context.Jogos
-                         select m;
+                                 select m;
 
             if (!String.IsNullOrEmpty(searchString))
             {
@@ -100,7 +89,7 @@ namespace GamePlace.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Nome,FotoCapa,Descricao,Tamanho,AnoLancamento,Genero,Preco,Classificacao,FaixaEtaria")]Jogos jogo, IFormFile fotoJogo, List<IFormFile> fotoJogoRecursos)
+        public async Task<IActionResult> Create([Bind("Nome,FotoCapa,Descricao,Tamanho,AnoLancamento,Genero,Preco,Classificacao,FaixaEtaria")] Jogos jogo, IFormFile fotoJogo, List<IFormFile> fotoJogoRecursos)
         {
 
             if (fotoJogo == null)
@@ -112,7 +101,7 @@ namespace GamePlace.Controllers
                 // devolver o controlo à View
                 // prepara os dados a serem enviados para a View
                 // para a Dropdown
-                // ViewData["CaoFK"] = new SelectList(_db.Caes.OrderBy(c => c.Nome), "Id", "Nome");
+
                 ViewData["IdJogo"] = new SelectList(_context.Jogos, "IdJogo", "Nome");
                 return View();
             }
@@ -162,7 +151,6 @@ namespace GamePlace.Controllers
                 // devolver o controlo à View
                 // prepara os dados a serem enviados para a View
                 // para a Dropdown
-                //  ViewData["CaoFK"] = new SelectList(_db.Caes.OrderBy(c => c.Nome), "Id", "Nome");
                 ViewData["IdJogo"] = new SelectList(_context.Jogos, "IdJogo", "Nome");
                 return View();
             }
@@ -232,25 +220,13 @@ namespace GamePlace.Controllers
 
                     // devolver o controlo à View
                     // prepara os dados a serem enviados para a View
-                    // para a Dropdown
-                    //  ViewData["CaoFK"] = new SelectList(_db.Caes.OrderBy(c => c.Nome), "Id", "Nome");
                     ViewData["IdJogo"] = new SelectList(_context.Jogos, "IdJogo", "Nome");
                     return View();
                 }
-
-                // 3. 
-                // adicionar ao 'jogo' a lista de recursos
-
-
-                //foreach (var recu in jogo.ListaRecursos)
-                //{
                 try
                 {
                     if (ModelState.IsValid)
                     {
-                        // se o Estado do Modelo for válido 
-                        // ie., se os dados do objeto 'foto' estiverem de acordo com as regras definidas
-                        // no modelo (classe Fotografias)
 
                         // adicionar os dados da 'foto' à base de dados
                         _context.Add(jogo);
@@ -292,6 +268,7 @@ namespace GamePlace.Controllers
             {
                 return NotFound();
             }
+            ViewData["IdJogo"] = new SelectList(_context.Jogos, "IdJogo", "Nome");
             return View(jogos);
         }
 
@@ -300,23 +277,55 @@ namespace GamePlace.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdJogo,Nome,FotoCapa,Descricao,Tamanho,AnoLancamento,Genero,Preco,Classificacao,FaixaEtaria")] Jogos jogos)
+        public async Task<IActionResult> Edit(int id, [Bind("IdJogo,Nome,FotoCapa,Descricao,Tamanho,AnoLancamento,Genero,Preco,Classificacao,FaixaEtaria")] Jogos jogo, IFormFile fotoJogo)
         {
-            if (id != jogos.IdJogo)
+
+
+            if (fotoJogo != null)
             {
-                return NotFound();
+
+                // há ficheiro. Mas, será do tipo correto (jpg/jpeg, png)?
+                if (fotoJogo.ContentType == "image/png" || fotoJogo.ContentType == "image/jpeg")
+                {
+
+                    // associar ao objeto 'foto' o nome do ficheiro
+                    jogo.FotoCapa = fotoJogo.FileName;
+
+
+                    
+
+                    // vou guardar o ficheiro no disco rígido do servidor
+                    // determinar onde guardar o ficheiro
+                    string caminhoAteAoFichFoto = _dadosServidor.WebRootPath;
+                    caminhoAteAoFichFoto = Path.Combine(caminhoAteAoFichFoto, "fotos", jogo.FotoCapa);
+                    // guardar o ficheiro no Disco Rígido
+                    using var stream = new FileStream(caminhoAteAoFichFoto, FileMode.Create);
+                    fotoJogo.CopyTo(stream);
+
+
+                }
+
+            }
+            else
+            {
+                Jogos jogosAux = _context.Jogos.Find(jogo.IdJogo);
+
+                _context.Entry<Jogos>(jogosAux).State = EntityState.Detached;
+
+
+                jogo.FotoCapa = jogosAux.FotoCapa;
             }
 
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(jogos);
+                    _context.Update(jogo);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!JogosExists(jogos.IdJogo))
+                    if (!JogosExists(jogo.IdJogo))
                     {
                         return NotFound();
                     }
@@ -327,10 +336,11 @@ namespace GamePlace.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(jogos);
+            return View(jogo);
         }
 
         // GET: Jogos/Delete/5
+       
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -344,6 +354,9 @@ namespace GamePlace.Controllers
             {
                 return NotFound();
             }
+             // guardar o ID da foto escolhida, para memória futura
+             
+             //HttpContext.Session.SetInt32("IdJogo", (int)id);
 
             return View(jogos);
         }
@@ -351,11 +364,25 @@ namespace GamePlace.Controllers
         // POST: Jogos/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(int IdJogo)
         {
-            var jogos = await _context.Jogos.FindAsync(id);
+
+            //var numIdJogo = HttpContext.Session.GetInt32("IdJogo");
+            if(IdJogo == null)
+            {
+                return RedirectToAction("Index");
+            }
+            try
+            {
+                var jogos = await _context.Jogos.FindAsync(IdJogo);
             _context.Jogos.Remove(jogos);
             await _context.SaveChangesAsync();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
             return RedirectToAction(nameof(Index));
         }
 

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace GamePlace.Models
+﻿namespace GamePlace.Models
 {
     public class APIJogosViewModel
     {
@@ -28,7 +23,7 @@ namespace GamePlace.Models
         /// </summary>
         public string Descricao { get; set; }
 
-        
+
 
 
 

@@ -1,17 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using GamePlace.Data;
+using GamePlace.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using GamePlace.Data;
-using GamePlace.Models;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
+using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace GamePlace.Controllers
 {
@@ -45,7 +45,8 @@ namespace GamePlace.Controllers
 
         // GET: Recursos
         [AllowAnonymous] // esta anotação anula o efeito do [Authorize]
-        public async Task<IActionResult> Index(){
+        public async Task<IActionResult> Index()
+        {
 
             var gamePlaceDb = _context.Recursos.Include(r => r.Jogo);
             return View(await gamePlaceDb.ToListAsync());
@@ -85,7 +86,7 @@ namespace GamePlace.Controllers
         public async Task<IActionResult> Create([Bind("IdRecursos,NomeRecurso,JogoFK")] Recursos recursos, List<IFormFile> fotoJogoRecurso)
         {
 
-            
+
             // avaliar se existe ficheiro
             if (fotoJogoRecurso == null)
             {
@@ -96,80 +97,78 @@ namespace GamePlace.Controllers
                 // devolver o controlo à View
                 // prepara os dados a serem enviados para a View
                 // para a Dropdown
-                // ViewData["CaoFK"] = new SelectList(_db.Caes.OrderBy(c => c.Nome), "Id", "Nome");
                 ViewData["JogoFK"] = new SelectList(_context.Jogos, "IdJogo", "Nome");
                 return View();
             }
-            
+
             var tamanhoLista = fotoJogoRecurso.Count;
 
             foreach (var imag in fotoJogoRecurso)
             {
 
-                    // há ficheiro. Mas, será do tipo correto (jpg/jpeg, png)?
-                    if (imag.ContentType == "image/png" || imag.ContentType == "image/jpeg")
-                    {
-                        // o ficheiro é bom
+                // há ficheiro. Mas, será do tipo correto (jpg/jpeg, png)?
+                if (imag.ContentType == "image/png" || imag.ContentType == "image/jpeg")
+                {
+                    // o ficheiro é bom
 
-                        // definir o nome do ficheiro
-                        string nomeFoto = "";
-                        Guid g;
-                        g = Guid.NewGuid();
-                        nomeFoto = recursos.JogoFK + "_" + g.ToString();
-                        string extensaoFoto = Path.GetExtension(imag.FileName).ToLower();
-                        nomeFoto = nomeFoto + extensaoFoto;
+                    // definir o nome do ficheiro
+                    string nomeFoto = "";
+                    Guid g;
+                    g = Guid.NewGuid();
+                    nomeFoto = recursos.JogoFK + "_" + g.ToString();
+                    string extensaoFoto = Path.GetExtension(imag.FileName).ToLower();
+                    nomeFoto = nomeFoto + extensaoFoto;
 
-                        // associar ao objeto 'foto' o nome do ficheiro
-                        recursos.NomeRecurso = nomeFoto;
-                    }
-                    else
-                    {
-                        // se aqui chego, há ficheiro, mas não foto
-                        // se aqui entro, não há foto
-                        // notificar o utilizador que há um erro
-                        ModelState.AddModelError("", "Deve selecionar uma fotografia...");
+                    // associar ao objeto 'foto' o nome do ficheiro
+                    recursos.NomeRecurso = nomeFoto;
+                }
+                else
+                {
+                    // se aqui chego, há ficheiro, mas não foto
+                    // se aqui entro, não há foto
+                    // notificar o utilizador que há um erro
+                    ModelState.AddModelError("", "Deve selecionar uma fotografia...");
 
-                        // devolver o controlo à View
-                        // prepara os dados a serem enviados para a View
-                        // para a Dropdown
-                        //  ViewData["CaoFK"] = new SelectList(_db.Caes.OrderBy(c => c.Nome), "Id", "Nome");
-                        ViewData["JogoFK"] = new SelectList(_context.Jogos, "IdJogo", "Nome");
-                        return View();
-                    }
-                    if (recursos.JogoFK > 0)
+                    // devolver o controlo à View
+                    // prepara os dados a serem enviados para a View
+                    // para a Dropdown
+                    ViewData["JogoFK"] = new SelectList(_context.Jogos, "IdJogo", "Nome");
+                    return View();
+                }
+                if (recursos.JogoFK > 0)
+                {
+                    try
                     {
-                        try
+                        if (ModelState.IsValid)
                         {
-                            if (ModelState.IsValid)
-                            {
                             // se o Estado do Modelo for válido 
                             // ie., se os dados do objeto 'foto' estiverem de acordo com as regras definidas
                             // no modelo (classe Fotografias)
 
                             // adicionar os dados da 'foto' à base de dados
 
-                                _context.Recursos.Add(recursos);
+                            _context.Recursos.Add(recursos);
 
-                            
+
 
                             // vou guardar o ficheiro no disco rígido do servidor
                             // determinar onde guardar o ficheiro
                             string caminhoAteAoFichFoto = _dadosServidor.WebRootPath;
-                                caminhoAteAoFichFoto = Path.Combine(caminhoAteAoFichFoto, "fotos", recursos.NomeRecurso);
-                                // guardar o ficheiro no Disco Rígido
-                                using var stream = new FileStream(caminhoAteAoFichFoto, FileMode.Create);
-                                imag.CopyTo(stream);
-                            }
-                        }
-                        catch (Exception e)
-                        {
-                            ModelState.AddModelError("", "Ocorreu um erro com a introdução dos dados da Fotografia." + e );
+                            caminhoAteAoFichFoto = Path.Combine(caminhoAteAoFichFoto, "fotos", recursos.NomeRecurso);
+                            // guardar o ficheiro no Disco Rígido
+                            using var stream = new FileStream(caminhoAteAoFichFoto, FileMode.Create);
+                            imag.CopyTo(stream);
                         }
                     }
-                    else
+                    catch (Exception e)
                     {
-                        ModelState.AddModelError("", "Não se esqueça de escolher um jogo...");
+                        ModelState.AddModelError("", "Ocorreu um erro com a introdução dos dados da Fotografia." + e);
                     }
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Não se esqueça de escolher um jogo...");
+                }
             }
 
             // consolidar as alterações na base de dados
@@ -226,7 +225,7 @@ namespace GamePlace.Controllers
                         throw;
                     }
                 }
- 
+
                 return RedirectToAction(nameof(Index));
             }
             ViewData["JogoFK"] = new SelectList(_context.Jogos, "IdJogo", "Nome", recursos.JogoFK);

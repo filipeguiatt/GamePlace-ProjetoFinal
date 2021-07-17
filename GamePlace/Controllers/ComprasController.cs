@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using GamePlace.Data;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using GamePlace.Data;
-using Microsoft.AspNetCore.Identity;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace GamePlace.Models
 {
@@ -76,43 +74,44 @@ namespace GamePlace.Models
         {
             if (!User.IsInRole("Admin"))
             {
-            if (User.Identity.IsAuthenticated)
-            {
+                if (User.Identity.IsAuthenticated)
+                {
                     //var utilizador = _context.UtilizadorRegistado.Where(u => u.UserNameId == _userManager.GetUserId(User)).FirstOrDefault();
                     //var jogoId = _context.Jogos.Where(u => u.IdJogo
                     //Adiciona a data atual ao jogo comprado
                     //compras.Data = DateTime.Now;
                     //compras.JogoFK =
                     //compras.JogoFK = _context.Jogos.;
-                    
-                   // compras.UtilizadorFK = utilizador.Id;
+
+                    // compras.UtilizadorFK = utilizador.Id;
 
 
 
-                    
 
-                if (ModelState.IsValid)
-                {
-                    _context.Add(compras);
-                    await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(Index));
+
+                    if (ModelState.IsValid)
+                    {
+                        _context.Add(compras);
+                        await _context.SaveChangesAsync();
+                        return RedirectToAction(nameof(Index));
+                    }
+
+
+
+
+                    ViewData["JogoFK"] = new SelectList(_context.Jogos, "IdJogo", "Nome", compras.JogoFK);
+                    ViewData["UtilizadorFK"] = new SelectList(_context.UtilizadorRegistado, "Id", "Nome", compras.UtilizadorFK);
                 }
-
-
-
-
-                ViewData["JogoFK"] = new SelectList(_context.Jogos, "IdJogo", "Nome", compras.JogoFK);
-                ViewData["UtilizadorFK"] = new SelectList(_context.UtilizadorRegistado, "Id", "Nome", compras.UtilizadorFK);
+                else
+                {
+                    ModelState.AddModelError("", "Please Login!");
+                }
             }
             else
-            {
-                ModelState.AddModelError("", "Please Login!");
-            }
-        }else
                 ModelState.AddModelError("", "O Admin nao ira fazer compras!");
-            return View(compras); 
-           
-            
+            return View(compras);
+
+
         }
 
         // GET: Compras/Edit/5

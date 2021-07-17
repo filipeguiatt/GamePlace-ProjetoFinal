@@ -61,6 +61,7 @@ html {
 body {
     /* Margin bottom by footer height */
     margin-bottom: 60px;
+    background-color: #e9f3ff;
 }
 .footer {
   position: absolute;
@@ -195,7 +196,7 @@ body {
 }
 
 .createLabel {
-    color: honeydew;
+    color: darkblue;
     font-weight: bold;
 }
 
@@ -231,21 +232,4 @@ form.example::after {
     content: "";
     clear: both;
     display: table;
-}
-
-.thumbnail-wrapper {
-    display: inline-block;
-    position: relative;
-}
-
-.thumbnail-wrapper button {
-        position: absolute;
-        top: 5%;
-        left: 90%;
-        -webkit-transform: translate3d(-50%, -50%, 0);
-        -moz-transform: translate3d(-50%, -50%, 0);
-        transform: translate3d(-50%, -50%, 0);
-}
-.checked {
-    color: orange;
 }

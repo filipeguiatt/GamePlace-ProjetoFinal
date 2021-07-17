@@ -1,12 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using GamePlace.Data;
+using GamePlace.Models;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using GamePlace.Data;
-using GamePlace.Models;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace GamePlace.Controllers.API
 {
@@ -16,9 +18,12 @@ namespace GamePlace.Controllers.API
     {
         private readonly GamePlaceDb _context;
 
-        public JogosControllerAPI(GamePlaceDb context)
+        private readonly IWebHostEnvironment _dadosServidor;
+
+        public JogosControllerAPI(GamePlaceDb context, IWebHostEnvironment dadosServidor)
         {
             _context = context;
+            _dadosServidor = dadosServidor;
         }
 
         // GET: api/JogosControllerAPI
@@ -83,12 +88,28 @@ namespace GamePlace.Controllers.API
         // POST: api/JogosControllerAPI
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Jogos>> PostJogos(Jogos jogos)
+        public async Task<ActionResult<Jogos>> PostJogos([FromForm]Jogos jogo, IFormFile UpFoto)
         {
-            _context.Jogos.Add(jogos);
+
+
+                jogo.FotoCapa = "";
+
+
+            jogo.FotoCapa = UpFoto.FileName;
+            // vou guardar o ficheiro no disco rígido do servidor
+            // determinar onde guardar o ficheiro
+            string caminhoAteAoFichFoto = _dadosServidor.WebRootPath;
+            caminhoAteAoFichFoto = Path.Combine(caminhoAteAoFichFoto, "fotos", UpFoto.FileName);
+            // guardar o ficheiro no Disco Rígido
+            var stream = new FileStream(caminhoAteAoFichFoto, FileMode.Create);
+            await UpFoto.CopyToAsync(stream);
+            
+
+            // adicionar os dados da 'foto' à base de dados
+            _context.Add(jogo);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetJogos", new { id = jogos.IdJogo }, jogos);
+            return CreatedAtAction("GetJogos", new { id = jogo.IdJogo }, jogo);
         }
 
         // DELETE: api/JogosControllerAPI/5

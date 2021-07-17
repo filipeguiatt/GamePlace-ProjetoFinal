@@ -151,7 +151,7 @@ namespace GamePlace.Areas.Identity.Pages.Account
 
                         // já não há nada a fazer,
                         // redirecionar para a página de confirmação de criação de conta
-                        return RedirectToPage("RegisterConfirmation");
+                        return RedirectToAction(nameof(Index), "Jogos");
                     }
                     catch (Exception)
                     {

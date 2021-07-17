@@ -6,12 +6,6 @@ namespace GamePlace.Models
 {
     public class Favoritos
     {
-        public Favoritos()
-        {
-            // inicializar a lista de Compras do Jogo
-            ListaJogos = new HashSet<Jogos>();
-
-        }
 
 
         /// <summary>
@@ -29,9 +23,9 @@ namespace GamePlace.Models
         /// <summary>
         /// FK para o id do Jogo
         /// </summary>
-        [ForeignKey(nameof(JogoFavorit))]
+        [ForeignKey(nameof(JogoFav))]
         public int JogoFK { get; set; }
-        public Jogos JogoFavorit { get; set; }
+        public Jogos JogoFav { get; set; }
 
 
         /// <summary>
@@ -41,10 +35,6 @@ namespace GamePlace.Models
         public int UtilizadorFK { get; set; }
         public UtilizadorRegistado User { get; set; }
 
-        /// <summary>
-        /// lista de jogos
-        /// </summary>
-        public ICollection<Jogos> ListaJogos { get; set; }
 
 
 
