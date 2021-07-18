@@ -25,6 +25,27 @@
     <Compile Remove="Migrations\20210707165530_GamePlace.Designer.cs" />
     <Compile Remove="Models\Favoritos.cs" />
     <Compile Remove="Models\ViewModels.cs" />
+    <Compile Remove="Views\Jogos\DeleteDois.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="wwwroot\fotos\0_1e005997-afdd-4bad-b592-3185987c668e.jpg" />
+    <Content Remove="wwwroot\fotos\0_33deee01-ccb9-4eb6-a90a-4eb196be11b4.jpg" />
+    <Content Remove="wwwroot\fotos\0_3a9737b8-a2c4-4765-86af-c06f57a97b30.jpg" />
+    <Content Remove="wwwroot\fotos\0_65f42c21-fbc9-41bc-a4b2-51007293938b.jpg" />
+    <Content Remove="wwwroot\fotos\0_6a09693e-57ec-43bf-88ec-4b160289e57d.jpg" />
+    <Content Remove="wwwroot\fotos\0_6de282b8-b138-4ccc-b061-e6bfbdb344d7.jpg" />
+    <Content Remove="wwwroot\fotos\0_711e09d0-4f58-404b-ad80-7b58e95f1e06.jpg" />
+    <Content Remove="wwwroot\fotos\0_8d6b08d3-9fef-4943-a812-362ad72fe653.jpg" />
+    <Content Remove="wwwroot\fotos\0_ae5188ea-5418-4c97-8f2e-61a50b8b3241.jpg" />
+    <Content Remove="wwwroot\fotos\0_b55af5f0-c29e-4705-bf4c-0eba61ec1826.jpg" />
+    <Content Remove="wwwroot\fotos\0_e19ade51-73e1-49e5-9993-f5c7154a66e3.jpg" />
+    <Content Remove="wwwroot\fotos\0_e59db6b4-8c20-47ba-aaa3-c8d182f7117c.jpg" />
+    <Content Remove="wwwroot\fotos\0_e97f5bb8-7f30-4881-9c16-374de1a0b7a1.jpg" />
+    <Content Remove="wwwroot\fotos\Assassins_Creed_Valhalla.JPG" />
+    <Content Remove="wwwroot\fotos\COD Cold War.JPG" />
+    <Content Remove="wwwroot\fotos\Fifa21.JPG" />
+    <Content Remove="wwwroot\fotos\GhostOfTsushima.JPG" />
   </ItemGroup>
 
   <ItemGroup>

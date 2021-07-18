@@ -9,19 +9,21 @@
     @if (User.IsInRole("Admin"))
     {<a id="CriarJogo" asp-action="Create"> Create New </a>}
 </p>
-@foreach (var item in Model)
-{
-<div class="thumbnail-wrapper">
-    <a asp-action="Details" asp-route-id="@item.IdJogo">
+<div style="margin-left:15%; margin-right:18%">
 
-        <img style=" height: 200px; width: 150px; object-fit:fill;" src="~/fotos/@item.FotoCapa"
-             alt="Fotografia do jogo @item.Nome"
-             title="@item.Nome"
-             height="50" />
 
-    </a>
+    @foreach (var item in Model)
+    {
+        <a asp-action="Details" asp-route-id="@item.IdJogo">
+
+            <img style=" height: 200px; width: 150px; object-fit:fill;" src="~/fotos/@item.FotoCapa"
+                 alt="Fotografia do jogo @item.Nome"
+                 title="@item.Nome"
+                 height="50" />
+
+        </a>
+    }
 </div>
-}
 
 
 

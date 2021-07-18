@@ -386,7 +386,55 @@ namespace GamePlace.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool JogosExists(int id)
+
+        // GET: Fotografias/Delete/5
+        public async Task<IActionResult> DeleteDois(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var jogos = await _context.Jogos
+                .FirstOrDefaultAsync(m => m.IdJogo == id);
+            if (jogos == null)
+            {
+                return NotFound();
+            }
+            //HttpContext.Session.SetInt32("idFoto", (int)id);
+            return View(jogos);
+        }
+
+
+
+
+        // POST: Fotografias/Delete/5
+        [HttpPost, ActionName("DeleteDois")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteDoisConfirmed(int IdJogo)
+        {
+
+            // ler o valor do ID que foi previamente guardado
+            //var numIdFoto = HttpContext.Session.GetInt32("IdJogo");
+
+            // se a var de sessão extinguir-se,
+            // temos um problema
+            if (IdJogo == null)
+            {
+                //é preciso alertar o utilizador que demorou tempo de mais
+
+                // e devolver o controlo à View
+                return RedirectToAction("Index");
+            }
+            var foto = await _context.Jogos.FindAsync(IdJogo);
+            _context.Jogos.Remove(foto);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
+
+
+    private bool JogosExists(int id)
         {
             return _context.Jogos.Any(e => e.IdJogo == id);
         }
