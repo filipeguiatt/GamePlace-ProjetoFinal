@@ -348,17 +348,14 @@ namespace GamePlace.Controllers
                 return NotFound();
             }
 
-            var jogos = await _context.Jogos
+            var jogo = await _context.Jogos
                 .FirstOrDefaultAsync(m => m.IdJogo == id);
-            if (jogos == null)
+            if (jogo == null)
             {
                 return NotFound();
             }
-             // guardar o ID da foto escolhida, para memória futura
-             
-             //HttpContext.Session.SetInt32("IdJogo", (int)id);
 
-            return View(jogos);
+            return View(jogo);
         }
 
         // POST: Jogos/Delete/5
@@ -367,71 +364,22 @@ namespace GamePlace.Controllers
         public async Task<IActionResult> DeleteConfirmed(int IdJogo)
         {
 
-            //var numIdJogo = HttpContext.Session.GetInt32("IdJogo");
-            if(IdJogo == null)
+            foreach (var item in _context.Jogos)
             {
-                return RedirectToAction("Index");
+
+                if (item.IdJogo == IdJogo)
+                {
+                    var imagem = item.FotoCapa;
+                    var imagemPasta = Path.Combine(_dadosServidor.WebRootPath, "fotos", imagem);
+                    System.IO.File.Delete(imagemPasta);
+                    var jogo = await _context.Jogos.FindAsync(IdJogo);
+                    _context.Jogos.Remove(jogo);
+
+                }
             }
-            try
-            {
-                var jogos = await _context.Jogos.FindAsync(IdJogo);
-            _context.Jogos.Remove(jogos);
-            await _context.SaveChangesAsync();
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-
-            return RedirectToAction(nameof(Index));
-        }
-
-
-        // GET: Fotografias/Delete/5
-        public async Task<IActionResult> DeleteDois(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var jogos = await _context.Jogos
-                .FirstOrDefaultAsync(m => m.IdJogo == id);
-            if (jogos == null)
-            {
-                return NotFound();
-            }
-            //HttpContext.Session.SetInt32("idFoto", (int)id);
-            return View(jogos);
-        }
-
-
-
-
-        // POST: Fotografias/Delete/5
-        [HttpPost, ActionName("DeleteDois")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteDoisConfirmed(int IdJogo)
-        {
-
-            // ler o valor do ID que foi previamente guardado
-            //var numIdFoto = HttpContext.Session.GetInt32("IdJogo");
-
-            // se a var de sessão extinguir-se,
-            // temos um problema
-            if (IdJogo == null)
-            {
-                //é preciso alertar o utilizador que demorou tempo de mais
-
-                // e devolver o controlo à View
-                return RedirectToAction("Index");
-            }
-            var foto = await _context.Jogos.FindAsync(IdJogo);
-            _context.Jogos.Remove(foto);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-
 
 
     private bool JogosExists(int id)

@@ -57,30 +57,72 @@ namespace GamePlace.Controllers.API
         // PUT: api/JogosControllerAPI/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutJogos(int id, Jogos jogos)
+        public async Task<IActionResult> PutJogos(int id, Jogos jogo, IFormFile fotoJogo)
         {
-            if (id != jogos.IdJogo)
+            if (id != jogo.IdJogo)
             {
                 return BadRequest();
             }
 
-            _context.Entry(jogos).State = EntityState.Modified;
 
-            try
+            if (fotoJogo != null)
             {
-                await _context.SaveChangesAsync();
+
+                // há ficheiro. Mas, será do tipo correto (jpg/jpeg, png)?
+                if (fotoJogo.ContentType == "image/png" || fotoJogo.ContentType == "image/jpeg")
+                {
+
+                    // associar ao objeto 'foto' o nome do ficheiro
+                    jogo.FotoCapa = fotoJogo.FileName;
+
+
+
+
+                    // vou guardar o ficheiro no disco rígido do servidor
+                    // determinar onde guardar o ficheiro
+                    string caminhoAteAoFichFoto = _dadosServidor.WebRootPath;
+                    caminhoAteAoFichFoto = Path.Combine(caminhoAteAoFichFoto, "fotos", jogo.FotoCapa);
+                    // guardar o ficheiro no Disco Rígido
+                    using var stream = new FileStream(caminhoAteAoFichFoto, FileMode.Create);
+                    fotoJogo.CopyTo(stream);
+
+
+                }
+
             }
-            catch (DbUpdateConcurrencyException)
+            else
             {
-                if (!JogosExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                Jogos jogosAux = _context.Jogos.Find(jogo.IdJogo);
+
+                _context.Entry<Jogos>(jogosAux).State = EntityState.Detached;
+
+
+                jogo.FotoCapa = jogosAux.FotoCapa;
             }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(jogo);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!JogosExists(jogo.IdJogo))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return CreatedAtAction("GetJogos", new { id = jogo.IdJogo }, jogo);
+
+            _context.Entry(jogo).State = EntityState.Modified;
 
             return NoContent();
         }

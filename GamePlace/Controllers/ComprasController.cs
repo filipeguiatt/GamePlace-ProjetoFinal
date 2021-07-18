@@ -128,7 +128,7 @@ namespace GamePlace.Models
                 return NotFound();
             }
             ViewData["JogoFK"] = new SelectList(_context.Jogos, "IdJogo", "IdJogo", compras.JogoFK);
-            ViewData["UtilizadorFK"] = new SelectList(_context.UtilizadorRegistado, "Id", "CodPostal", compras.UtilizadorFK);
+            ViewData["UtilizadorFK"] = new SelectList(_context.UtilizadorRegistado, "Id", "Nome", compras.UtilizadorFK);
             return View(compras);
         }
 
@@ -165,7 +165,7 @@ namespace GamePlace.Models
                 return RedirectToAction(nameof(Index));
             }
             ViewData["JogoFK"] = new SelectList(_context.Jogos, "IdJogo", "IdJogo", compras.JogoFK);
-            ViewData["UtilizadorFK"] = new SelectList(_context.UtilizadorRegistado, "Id", "CodPostal", compras.UtilizadorFK);
+            ViewData["UtilizadorFK"] = new SelectList(_context.UtilizadorRegistado, "Id", "Nome", compras.UtilizadorFK);
             return View(compras);
         }
 
